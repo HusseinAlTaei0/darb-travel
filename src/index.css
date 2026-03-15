@@ -1,0 +1,201 @@
+/* ============================================
+   DARB — Global Styles & Design Tokens
+   ============================================ */
+
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   1. THEME VARIABLES (Tailwind v4 @theme)
+   ───────────────────────────────────────────── */
+
+/* إخفاء السهم الافتراضي عن كل العناصر */
+* {
+  cursor: none !important;
+}
+
+/* CRITICAL FIX: 
+  شملنا الـ html والـ body والـ #root (حاوية رياكت الأساسية).
+  استخدام 'clip' بدل 'hidden' يمنع السكرول الأفقي العشوائي 
+  وبنفس الوقت يحافظ على عمل خاصية position: sticky بملف الأصوات.
+*/
+html,
+body,
+#root {
+  cursor: none;
+  overflow-x: clip;
+}
+
+@theme {
+  /* ── Mint Palette ── */
+  --color-mint-500: #74B49B;
+  --color-mint-300: #A7D7C5;
+  --color-mint-100: #F1F8F6;
+
+  /* ── Orange Accent ── */
+  --color-orange-accent: #FFAC4B;
+
+  /* ── Navy (Primary Text) ── */
+  --color-navy: #1A2E35;
+
+  /* ── Cream (Background Base) ── */
+  --color-cream: #FAF9F6;
+
+  /* ── Neutral Support ── */
+  --color-muted: #6B7F86;
+  --color-border: #E2E8E4;
+
+  /* ── Shadows ── */
+  --shadow-card: 0 4px 24px rgba(26, 46, 53, 0.06);
+  --shadow-card-hover: 0 8px 40px rgba(26, 46, 53, 0.10);
+
+  /* ── Border Radius ── */
+  --radius-card: 1.25rem;
+  --radius-pill: 9999px;
+  --radius-button: 0.75rem;
+
+  /* ── Font Family ── */
+  --font-cairo: "Cairo", "Segoe UI", Tahoma, sans-serif;
+}
+
+
+/* ─────────────────────────────────────────────
+   2. BASE LAYER — Arabic Typography Fix Block
+   ───────────────────────────────────────────── */
+
+@layer base {
+
+  /* ── Global Reset ── */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ── Body ── */
+  body {
+    font-family: var(--font-cairo);
+    color: var(--color-navy);
+    background: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ── CRITICAL: Arabic Typography Fix ── */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  a,
+  li,
+  label {
+    line-height: 1.6 !important;
+  }
+
+  /* ── Buttons & Badges: Prevent Arabic Clipping ── */
+  button,
+  [role="button"],
+  .badge,
+  .tag {
+    white-space: nowrap;
+    flex-shrink: 0;
+    overflow: visible;
+  }
+
+  /* ── Smooth scrolling ── */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* ── Selection Color ── */
+  ::selection {
+    background-color: var(--color-mint-300);
+    color: var(--color-navy);
+  }
+
+  /* ── Focus Visible (Accessibility) ── */
+  :focus-visible {
+    outline: 2px solid var(--color-mint-500);
+    outline-offset: 2px;
+  }
+
+  /* ── Scrollbar Styling ── */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-mint-300);
+    border-radius: var(--radius-pill);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-mint-500);
+  }
+}
+
+
+/* ─────────────────────────────────────────────
+   3. UTILITY CLASSES
+   ───────────────────────────────────────────── */
+
+@layer utilities {
+
+  /* ── English text wrapper (LTR direction override) ── */
+  .text-en {
+    direction: ltr;
+    unicode-bidi: isolate;
+    font-feature-settings: "tnum" on, "lnum" on;
+  }
+
+  /* ── Glass Card ── */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+  }
+
+  .glass-card:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* ── Hide Scrollbar Utility ── */
+  .hide-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scroll {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+}
